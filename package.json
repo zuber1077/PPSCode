@@ -1,0 +1,46 @@
+{
+  "name": "ppscode",
+  "version": "0.0.0",
+  "private": true,
+  "engines": {
+    "node": "8.11.1",
+    "npm": "5.6.0"
+  },
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zuber1077/PPScode.git"
+  },
+  "keywords": [
+    "video call",
+    "code sharing",
+    "node contact form",
+    "node email",
+    "Nodejs",
+    "mongodb"
+  ],
+  "author": "zuber Ab",
+  "authorWebsite": "http://zuber.cf/",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zuber1077/PPScode/issues"
+  },
+  "homepage": "https://github.com/zuber1077/PPScode#readme",
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "dotenv": "^6.0.0",
+    "express": "~4.16.0",
+    "express-session": "^1.15.6",
+    "express-validator": "^5.3.0",
+    "hbs": "~4.0.1",
+    "http-errors": "~1.6.2",
+    "mongoose": "^5.3.1",
+    "morgan": "~1.9.0",
+    "nodemailer": "^4.6.8",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  }
+}

@@ -1,0 +1,8 @@
+node_modules/
+.idea
+*.log
+DS_store
+config.js
+package-lock.json
+variables.env
+variables.env.pro
