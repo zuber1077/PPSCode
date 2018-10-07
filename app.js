@@ -14,6 +14,7 @@ const config = require('./config');
 
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
+const taskRouter = require('./routes/task');
 
 const app = express();
 
@@ -21,6 +22,7 @@ const app = express();
 // require('dotenv').config({ path: 'variables.env' });
 mongoose.connect(config.db, { useNewUrlParser: true});
 global.User = require('./models/user');
+global.Task = require('./models/task');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -53,6 +55,7 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/', authRouter);
 app.use('/auth', authRouter);
+app.use('/', taskRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

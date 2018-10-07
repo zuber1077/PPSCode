@@ -1,0 +1,115 @@
+<style>
+.CodeMirror {
+  height:  600px
+}
+.container{
+    margin-left: -10px;
+}
+
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.pt-3, .py-3 {
+    padding-top: 0rem!important;
+}
+</style>
+<div>
+    <div class="row">
+        <div class="col-md-8">
+            <textarea id="code-screen"></textarea>
+        </div>
+        <div class="col-md-4" id="chatbox">
+            <div class="row pt-3">
+                <div class="chat-main">
+                    <div class="col-md-12 chat-header rounded-top bg-primary text-white">
+                        <div class="row hide-chat-box">
+                            <div class="col-md-6 username pl-2" >
+                                <i class="fa fa-circle text-success" aria-hidden="true"></i>
+                                {{#if user}}
+                                <h6 class="m-0 text-white" id="chatbox-username">{{user.name}}</h6>
+                                {{/if}}
+                            </div>
+                            <div class="col-md-6 options text-right pr-2">
+                                <i class="fa fa-plus mr-2" aria-hidden="true"></i>
+                                <i class="fa fa-video-camera" aria-hidden="true"></i>
+                                <i class="fa fa-circle text-success live-video mr-1" aria-hidden="true"></i>
+                                <i class="fa fa-phone mr-2" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-content">
+                        <div class="col-md-12 chats border">
+                            <ul class="p-0" id="chatbox-listMessages">
+                                
+                                {{!-- <li class="p-1 rounded mb-1">
+                                    <div class="receive-msg">
+                                        <div class="clearfix">
+                                            <blockquote class="me pull-left">Hi</blockquote>
+                                        </div>
+                                    </div>
+                                </li> --}}
+                            </ul>
+                        </div>
+                        <div class="message-box border border-top-0">
+                            <div class="panel-footer">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Enter message" id="userMessage" />
+                                    <span class="input-group-btn" style="height: 32px; padding: 2px 2px 4px;">
+                                        <button type="button" class="btn btn-primary btn-sm btn-squared" onclick="sendMessage()">SEND</button>
+                                    </span>
+                                </div>
+                            </div>
+                            {{!-- <div class="tools">
+                                <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                <i class="fa fa-telegram" aria-hidden="true"></i>
+                                <i class="fa fa-bell" aria-hidden="true"></i>
+                                <i class="fa fa-meh-o" aria-hidden="true"></i>
+                                <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                <i class="fa fa-gamepad" aria-hidden="true"></i>
+                                <i class="fa fa-camera" aria-hidden="true"></i>
+                                <i class="fa fa-folder" aria-hidden="true"></i>
+                                <i class="fa fa-thumbs-o-up m-0" aria-hidden="true"></i>
+                            </div> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/mode/javascript/javascript.min.js"></script>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+    const socket = io.connect('http://localhost:3000');
+    const editor = CodeMirror.fromTextArea(document.getElementById("code-screen"), {
+        lineNumbers: true,
+        theme: "midnight"
+    });
+
+    var username = $("#chatbox-username").val();
+    if(username === "") {
+        var userId = Math.floor(Math.random() * 9999).toString();
+        username = `User${userId}`;
+        $("#chatbox-username").text(username);
+    };
+
+    var userMessage = (name, text) => {
+        return ('<li class="p-1 rounded mb-1"><div class="receive-msg"><br><div class="clearfix"><blockquote class="you pull-right">' +'<b>'+ name + '</b> : '+ text + '</blockquote></div></div></li>');
+    };
+
+    var sendMessage = () => {
+        var userMessage = $('#userMessage').val();
+        socket.emit('chatMessage', { message: userMessage, username: username });
+        $('#userMessage').val("");
+    };
+
+    socket.on('chatMessage', (data) => {
+        $('#chatbox-listMessages').append(userMessage(data.username, data.message));
+    }); 
+</script>
