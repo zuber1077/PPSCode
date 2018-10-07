@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/zuber1077/PPScode#readme",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "dotenv": "^6.0.0",
@@ -41,6 +42,7 @@
     "morgan": "~1.9.0",
     "nodemailer": "^4.6.8",
     "passport": "^0.4.0",
+    "passport-google-oauth2": "^0.1.6",
     "passport-local": "^1.0.0"
   }
 }

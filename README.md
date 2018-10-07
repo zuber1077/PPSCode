@@ -1,11 +1,14 @@
 #PPSCode Pear to pear code sharing along with video call and communication platform 
     *Using Nodejs mongoose ..
 
+```
+$ npm i
 
-~ npm i
+$ npm start
+```
 
-~ npm start
-create config.js file
+### create config.js file
+```
 module.exports = {
     mailer: {
         service: 'EMAILP', // email provide eg. Gmail
@@ -14,5 +17,9 @@ module.exports = {
             pass: 'YOUR EMAIL PASSWORD' 
         }
     },
-    db: 'mongodb://127.0.0.1/<>' // mongoose DataBase eg.  mongodb://127.0.0.1/dbname
+    db: 'mongodb://127.0.0.1/<>' // mongoose DataBase eg.  mongodb://127.0.0.1/dbname,
+    sessionKey: 'thisismysecret', 
+    GOOGLE_CLIENT_ID: '', // from https://console.developers.google.com/apis
+    GOOGLE_CLIENT_SECRET: ''
 }
+```

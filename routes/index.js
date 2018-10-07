@@ -47,13 +47,5 @@ router.route('/contact')
 
     }
   });
-/* GET Register login page. */
-  router.get('/login', (req,res,next) => {
-    res.render('login', {title: 'PPSCode - Login to your account'});
-  });
-
-  router.get('/register', (req,res,next) => {
-    res.render('register', {title: 'PPSCode - Register new account'});
-  });
 
 module.exports = router;

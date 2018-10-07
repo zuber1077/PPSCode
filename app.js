@@ -6,16 +6,20 @@ const logger = require('morgan');
 const expressValidator = require('express-validator');
 
 const mongoose = require('mongoose');
+const passport = require('passport');
+const session = require('express-session');
+
+require('./passport');
 const config = require('./config');
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const authRouter = require('./routes/auth');
 
 const app = express();
 
 // import environmental variables from our variables.env file
 // require('dotenv').config({ path: 'variables.env' });
-mongoose.connect(config.dbConnstring, { useNewUrlParser: true});
+mongoose.connect(config.db, { useNewUrlParser: true});
 global.User = require('./models/user');
 
 // view engine setup
@@ -29,10 +33,26 @@ app.use(express.urlencoded({ extended: false }));
 app.use(expressValidator());
 
 app.use(cookieParser());
+app.use(session({
+  secret: config.sessionKey,
+  resave: false,
+  saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use((req, res, next) => {
+  if (req.isAuthenticated()) {
+    res.locals.user = req.user;
+  }
+  next();
+});
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/', authRouter);
+app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

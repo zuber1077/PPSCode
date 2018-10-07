@@ -1,28 +1,25 @@
 const mongoose = require('mongoose');
-const crypto = require('crypto');
+const bcrypt = require('bcrypt-nodejs');
 
-const userSchema = new mongoose.Schema({
+var userSchema = new mongoose.Schema({
     email: {
         type: String,
-        unique: true,
-        required: true
+        unique: true
     },
     name: {
         type: String,
-        required: true
+        default: ''
     },
-    hash: String,
-    salt: String
+    username: { type: String, unique: true, default: '' },
+    password: {type: String, default: ''},
+    google: {type: String, default: '' }
 });
-// for Register
-userSchema.methods.setPassword = function (password) {
-    this.salt = crypto.randomBytes(16).toString('hex');
-    this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha1').toString('hex');
+//encrypt password 
+userSchema.methods.encryptPassword = function (password) {
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);//generate hash(salt) and encrypt z password before save to db /length of 10
 };
-// for login
-userSchema.methods.validPassword = function (password) {
-    const hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha1').toString('hex');
-    return this.hash === hash;
+//encrypt z password when z user trying to login
+userSchema.methods.validUserPassword = function (password) {
+  return bcrypt.compareSync(password, this.password); //to compare input user password and z db 
 };
-
-module.mongoose = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema);
