@@ -80,19 +80,41 @@
     </div>
 </div>
 
+
 <input type="hidden" value="{{roomId}}" id="roomId">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/mode/javascript/javascript.min.js"></script>
 
+<script src="/plugins/ot/ot.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
+    /*  */
+    var EditorClient = ot.EditorClient;
+    var SocketIOAdapter = ot.SocketIOAdapter;
+    var CodeMirrorAdapter = ot.CodeMirrorAdapter;
+    /* */
+
     const socket = io.connect('http://localhost:3000');
     const editor = CodeMirror.fromTextArea(document.getElementById("code-screen"), {
         lineNumbers: true,
         theme: "midnight"
     });
+
+    /* */
+    var cmClient;
+    function init(str, revision, clients, serverAdapter) {
+        editor.setValue(str);
+        cmClient = window.cmClient = new EditorClient(
+            revision, clients, serverAdapter, new CodeMirrorAdapter(editor)
+        );
+    };
+
+    socket.on('doc', (obj) => {
+        init(obj.str, obj.revision, obj.clients, new SocketIOAdapter(socket));
+    });
+    /* */
 
     var username = $("#chatbox-username").val();
     if(username === "") {
@@ -102,7 +124,10 @@
     };
 
     var roomId = $('#roomId').val();
-    socket.emit('joinRoom', {room: roomId});
+    
+    /* */
+    socket.emit('joinRoom', {room: roomId, username: username});
+    /* */
 
     var userMessage = (name, text) => {
         return ('<li class="p-1 rounded mb-1"><div class="receive-msg"><br><div class="clearfix"><blockquote class="you pull-right">' +'<b>'+ name + '</b> : '+ text + '</blockquote></div></div></li>');
