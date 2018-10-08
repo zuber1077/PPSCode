@@ -24,6 +24,7 @@ body {
 .small, small{
   font-size: 90%;
 }
+/* nav start */
 a:hover{
   text-decoration: none;
   color: #0067F4;
@@ -37,7 +38,9 @@ text-shadow: -1px 2px 0 rgba(0,0,0,.1);
     font-weight: bold;
     color: #29c68c;
 }
+/* nav end */
 
+/* sign in start */
 .form-signin
 {
     max-width: 330px;
@@ -113,9 +116,12 @@ text-shadow: -1px 2px 0 rgba(0,0,0,.1);
     display: block;
     margin-top: 10px;
 }
+/* sign in end */
 
+/* chat box start */
 .chat-main{
-	/* position: fixed; */
+    position: fixed;
+    margin-right: -101px;
 	width: 270px;
 	bottom: 0;
 	right: 200px;
@@ -202,4 +208,30 @@ text-shadow: -1px 2px 0 rgba(0,0,0,.1);
 
 }
 
- 
+/* chat box end */
+
+
+/* video call start */
+
+.CodeMirror {
+  height:  600px
+}
+
+
+#my-video {
+  background-color: #eee;
+}
+
+#second-video {
+  background-color: #eee;
+}
+
+
+#step1-error, #step2, #step3 {
+  display: none;
+}
+
+#my-id {
+  font-weight: bold;
+}
+/* video call end */
