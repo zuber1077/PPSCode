@@ -18,7 +18,7 @@
 <div>
     <div class="row">
         <div class="col-md-8">
-            <textarea id="code-screen"></textarea>
+            <textarea id="code-screen">{{content}}</textarea> 
         </div>
         <div class="col-md-4" id="chatbox">
             <div class="row pt-3">
@@ -102,10 +102,14 @@
         theme: "midnight"
     });
 
+    var code = $('#code-screen').val();  /* save */
+
     /* */
     var cmClient;
     function init(str, revision, clients, serverAdapter) {
-        editor.setValue(str);
+        if (!code) { /* save */
+            editor.setValue(str);
+        }
         cmClient = window.cmClient = new EditorClient(
             revision, clients, serverAdapter, new CodeMirrorAdapter(editor)
         );
@@ -124,7 +128,7 @@
     };
 
     var roomId = $('#roomId').val();
-    
+
     /* */
     socket.emit('joinRoom', {room: roomId, username: username});
     /* */

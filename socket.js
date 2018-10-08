@@ -13,8 +13,14 @@ module.exports = function(server) {
   io.on('connection', function(socket) {
     socket.on('joinRoom', function(data) {
       if (!roomList[data.room]) {
-        var socketIOServer = new ot.EditorSocketIOServer(str, [], data.room, (socket, cb) => {
-          cb(true);
+        var socketIOServer = new ot.EditorSocketIOServer(str, [], data.room, function(socket, cb) {
+          /* save */
+          var self = this;
+          Task.findByIdAndUpdate(data.room, {content: self.document}, function(err) {
+            if(err) return cb(false);
+            cb(true);
+          });
+          /* save */
         });
         roomList[data.room] = socketIOServer;
       }
