@@ -8,6 +8,8 @@ const expressValidator = require('express-validator');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const flash = require('connect-flash');
 
 require('./passport');
 const config = require('./config');
@@ -20,8 +22,14 @@ const app = express();
 
 // import environmental variables from our variables.env file
 // require('dotenv').config({ path: 'variables.env' });
-mongoose.connect(config.db, { useNewUrlParser: true});
-global.User = require('./models/user');
+mongoose.Promise = global.Promise;
+mongoose.Promise = Promise;
+mongoose.connect(config.db, { useNewUrlParser: true }).then(db=>{
+    console.log('DB connected');
+}).catch(error=>console.log(`err ${error}`));
+
+
+global.User = require('./models/User');
 global.Task = require('./models/task');
 
 // view engine setup
@@ -38,13 +46,27 @@ app.use(cookieParser());
 app.use(session({
   secret: config.sessionKey,
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: new MongoStore({ mongooseConnection: mongoose.connection})
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Flush Local Variables Using Middleware
+
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  res.locals.success_message = req.flash('success_message');
+  res.locals.error_message = req.flash('error_message');
+  res.locals.form_error = req.flash('form_errors');
+  res.locals.error = req.flash('error');
+
+  next();
+});
+
 
 app.use((req, res, next) => {
   if (req.isAuthenticated()) {

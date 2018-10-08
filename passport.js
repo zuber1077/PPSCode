@@ -2,32 +2,40 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 const config = require('./config');
+const bcrypt = require("bcryptjs");
 
-passport.serializeUser((user, done) => {
-    done(null, user._id);
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
 });
 
-passport.deserializeUser((id,done) => {
-    User.findOne({_id: id}, (err, user) => {
-        done(err, user);
-    })
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
 });
 
-passport.use(new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password'
-  },
-  function (username, password, done) {
-    User.findOne({email: username}, (err, user) => {
-      if (err) return done(err);
-      if (!user || !user.validUserPassword(password)) {
-        return done(null, false, {
-          message: 'Email Does Not Exist or Password is Invalid'
+
+
+passport.use(new LocalStrategy({usernameField: 'email'}, (email, password, done)=>{
+    
+    User.findOne({email: email}).then(user=>{
+        if(!user) return done(null, false, {message: 'No user found'});
+
+
+        bcrypt.compare(password, user.password, (err, matched)=>{
+            if(err) return err;
+
+            if(matched){
+                return done(null, user);
+            }else{
+                return done(null, false, {message: 'Incorrect Password' });
+            }
         });
-      }
-      return done(null, user);
-    })
-  }));
+    }).catch(error=>console.log(error));
+
+
+}));
 
   passport.use(new GoogleStrategy({
     clientID: config.GOOGLE_CLIENT_ID,

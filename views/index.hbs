@@ -1,4 +1,148 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
+{{ form-msg}}
 
+{{#if user}}
     <a href="/createTask" class="btn btn-black btn-group-toggle">Create New Task</a>
+{{/if}}
+
+<style type="text/css">
+    .modal-newsletter {
+        color: #999;
+        font-size: 15px;
+    }
+
+    .modal-newsletter .modal-content {
+        padding: 40px;
+        border-radius: 0;
+        border: none;
+    }
+
+    .modal-newsletter .modal-header {
+        border-bottom: none;
+        position: relative;
+        display: block;
+        text-align: center;
+        border-radius: 5px 5px 0 0;
+    }
+    .modal-header .close{
+        padding: 0rem;
+    }
+
+    .modal-newsletter h4 {
+        color: #000;
+        text-align: center;
+        font-size: 30px;
+        margin: 0 0 25px;
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+
+    .modal-newsletter .close {
+        background: #c0c3c8;
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        color: #fff;
+        text-shadow: none;
+        opacity: 0.5;
+        width: 22px;
+        height: 22px;
+        border-radius: 20px;
+        font-size: 16px;
+    }
+
+    .modal-newsletter .close span {
+        position: relative;
+        top: -1px;
+    }
+
+    .modal-newsletter .close:hover {
+        opacity: 0.8;
+    }
+
+    .modal-newsletter .icon-box {
+        color: #7265ea;
+        display: inline-block;
+        z-index: 9;
+        text-align: center;
+        position: relative;
+        margin-bottom: 10px;
+    }
+
+    .modal-newsletter .icon-box i {
+        font-size: 110px;
+    }
+
+    .modal-newsletter .form-control,
+    .modal-newsletter .btn {
+        min-height: 46px;
+    }
+
+    .modal-newsletter .form-control {
+        box-shadow: none;
+        border-color: #dbdbdb;
+    }
+
+    .modal-newsletter .form-control:focus {
+        border-color: #7265ea;
+        box-shadow: 0 0 8px rgba(114, 101, 234, 0.5);
+    }
+
+    .modal-newsletter .btn {
+        color: #fff;
+        border-radius: 0px;
+        background: #7265ea;
+        text-decoration: none;
+        transition: all 0.4s;
+        line-height: normal;
+        padding: 6px 20px;
+        min-width: 104px;
+        border: none;
+    }
+
+    .modal-newsletter .btn:hover,
+    .modal-newsletter .btn:focus {
+        background: #4e3de4;
+        outline: none;
+    }
+
+    .modal-newsletter .input-group {
+        margin: 30px 0 15px;
+    }
+
+    .hint-text {
+        margin: 100px auto;
+        text-align: center;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#myModal").modal('show');
+    });
+</script>
+    {{!-- <div id="myModal" class="modal fade d-flex justify-content-center">
+        <div class="modal-dialog modal-newsletter">
+            <div class="modal-content">
+                <form action="/newsletter" method="post">
+                    <div class="modal-header">
+                        <div class="icon-box">
+                            <i class="fa fa-envelope-open-o"></i>
+                        </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span>&times;</span></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <h4>Subscribe to our newsletter</h4>
+                        <p>Join our subscribers list to get the latest news, updates and special offers delivered
+                            directly in your inbox.</p>
+                        <div class="input-group">
+                            <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
+                            <span class="input-group-btn">
+                                <input type="submit" class="btn btn-primary btn-sm" value="Subscribe">
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> --}}

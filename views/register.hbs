@@ -17,15 +17,12 @@
             </div>
             <div class="col-md-8 py-5 border">
                 <h4 class="pb-4">Please fill with your details</h4>
-                <form method="POST">
-                    {{#each errorMessages }}
-                    <div class="alert alert-danger alert alert-warning alert-dismissible fade show" role="alert" data-dismiss="alert"
-                        aria-label="Close">
-                        {{!-- <i class="fa fa-warning"></i> --}}
-                        {{this.msg}}
-                        <span aria-hidden="true">×</span>
+                    {{#each errors}}
+                    <div class="alert alert-danger">
+                        {{message}}
                     </div>
                     {{/each}}
+                <form method="POST">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <input name="name" placeholder="Full Name" class="form-control" type="text" value={{name}}>
@@ -34,10 +31,10 @@
                             <input type="email" name="email" class="form-control" placeholder="Email" value={{email}}>
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="password" name="password" class="form-control" placeholder="Password" value={{password}}>
+                            <input type="password" name="password" class="form-control" placeholder="Password">
                         </div>
                         <div class="form-group col-md-6">
-                            <input type="password" name="confirmPassword" class="form-control" placeholder="Confirm Password" value={{password}}>
+                            <input type="password" name="passwordConfirm" class="form-control" placeholder="Confirm Password">
                         </div>
                     </div>
                     <div class="form-row">

@@ -80,6 +80,8 @@
     </div>
 </div>
 
+<input type="hidden" value="{{roomId}}" id="roomId">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/mode/javascript/javascript.min.js"></script>
 
@@ -98,6 +100,9 @@
         username = `User${userId}`;
         $("#chatbox-username").text(username);
     };
+
+    var roomId = $('#roomId').val();
+    socket.emit('joinRoom', {room: roomId});
 
     var userMessage = (name, text) => {
         return ('<li class="p-1 rounded mb-1"><div class="receive-msg"><br><div class="clearfix"><blockquote class="you pull-right">' +'<b>'+ name + '</b> : '+ text + '</blockquote></div></div></li>');

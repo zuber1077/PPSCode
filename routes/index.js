@@ -48,4 +48,38 @@ router.route('/contact')
     }
   });
 
+
+  // Email Newsletter
+
+  router.post('/newsletter', (req, res) => {
+    addEmailToMailchimp(req.body.email);
+    res.redirect('/');
+    req.flash('success_message', 'Thanks For Subscribe!');
+  })
+
+function addEmailToMailchimp(email) {
+  const request = require("request");
+
+  var options = {
+    method: 'POST',
+    url: 'https://us19.api.mailchimp.com/3.0/lists/1cc829acda/members',
+    headers:
+    {
+      'postman-token': '8a629537-84dd-0a07-0d43-d73a2761c557',
+      'cache-control': 'no-cache',
+      authorization: 'Basic YW55c3RyaW5nOjVkODdmZWVkMjllZWIxZDAzZTk0ZjMxZTRlMTNjYmNiLXVzMTk=',
+      'content-type': 'application/json'
+    },
+    body: { email_address: email, status: 'subscribed' },
+    json: true
+  };
+
+  request(options, function (error, response, body) {
+    if (error) throw new Error(error);
+
+    // console.log(body);
+  });
+
+}
+
 module.exports = router;
