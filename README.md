@@ -1,4 +1,3 @@
-![alt text](https://github.com/)
 #PPSCode Pear to pear code sharing along with video call and communication platform 
     *Using Nodejs mongoose ..
 
